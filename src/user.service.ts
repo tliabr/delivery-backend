@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { Cat, User } from './models/user';
+import { User } from './models/user';
 @Injectable()
 export class UserService {
   private users: User[] = [];
@@ -17,12 +17,5 @@ export class UserService {
   getUser(id: string): User | null {
     const user = this.users.find((u) => u.id === id);
     return user || null;
-  }
-  getUserCats(id: string): Cat[] {
-    const user = this.getUser(id);
-    if (user) {
-      return user.cats;
-    }
-    return [];
   }
 }
