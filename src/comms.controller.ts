@@ -8,6 +8,17 @@ import { Cat } from './models/user';
 export class CommsController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('welcome-fresh/:id')
+  getWelcomeMessage(@Param('id') id: string): { message: string } {
+    const user = this.userService.getUser(id);
+    if (!user) {
+      return { message: 'User not found' };
+    }
+    const catsString = formatCatNames(user?.cats.map((c) => c.name) || []);
+    return {
+      message: `Welcome to KatKin, ${user.firstName} ${user.lastName}! We're super excited for ${catsString} to join the KatKin club and start loving fresh!`,
+    };
+  }
   @Get('your-next-delivery/:id')
   getDeliveryData(@Param('id') id: string): UserContent | null {
     // assumption: every user has at least one cat
